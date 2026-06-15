@@ -1,57 +1,128 @@
 # College Information Assistant (RAG Chatbot)
 
-A Streamlit-based Retrieval-Augmented Generation (RAG) application that answers college-related questions by retrieving information from a local knowledge base of documents.
-
-## Overview
-
-This AI-powered chatbot uses embeddings and vector search to retrieve relevant information from text documents (admissions, attendance, hostel, library, fee structure, etc.) and answer user queries instantly — no manual searching required.
-
-## Features
-
-- Loads and processes college-related `.txt` documents
-- Splits documents into chunks for efficient retrieval
-- Generates embeddings using HuggingFace's `all-MiniLM-L6-v2` model
-- Stores and searches embeddings using ChromaDB
-- Simple chat-based Streamlit interface
-- Gracefully handles queries with no matching information
-
-## Tech Stack
-
-- **Python**
-- **Streamlit** – chat interface
-- **LangChain** – document loading and chunking
-- **HuggingFace Embeddings** – semantic vector representations
-- **ChromaDB** – vector storage and similarity search
-
-## Project Structure
-
-```
-rag_application/
-├── app.py              # Main Streamlit application
-├── documents/          # Knowledge base (.txt files)
-├── vector_store/       # ChromaDB storage
-├── requirements.txt    # Python dependencies
-└── README.md
-```
-
-## How to Run
-
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-## Example
-
-**User:** What is the minimum attendance required for exams?
-**Bot:** Minimum attendance required is 75% for exams.
-
-## Future Improvements
-
-- Add PDF support
-- Integrate an LLM for more natural answer generation
-- Improve chat memory and UI
+A Streamlit-based Retrieval-Augmented Generation (RAG) application that allows users to ask questions about college-related information and get instant answers from uploaded documents.
 
 ---
 
-**Author:** Neethu O S — B.Tech CSE | Interests: AI, Machine Learning, Data Analysis
+## Project Overview
+
+The *College Information Assistant* is an AI-powered chatbot that retrieves relevant information from a local knowledge base (text documents) using embeddings and vector search.
+
+Instead of manually searching through documents, users can simply ask questions and get accurate answers instantly.
+
+---
+
+## Features
+
+- Loads college-related information from `.txt` files  
+- Splits documents into meaningful chunks  
+- Converts text into embeddings using HuggingFace model  
+- Stores embeddings in Chroma vector database  
+- Retrieves most relevant information using similarity search  
+- Chat-like Streamlit interface  
+- Handles unknown queries gracefully  
+
+---
+
+## Project Structure
+
+rag_application/
+│
+├── app.py              # Main Streamlit application
+├── documents/          # Knowledge base (.txt files)
+├── vector_store/       # Chroma DB storage
+├── requirements.txt    # Python dependencies
+└── README.md           # Project documentation
+
+---
+
+## Technologies Used
+
+- Python  
+- Streamlit  
+- LangChain  
+- HuggingFace Embeddings  
+- Chroma Vector Database  
+
+---
+
+## How It Works
+
+1. Load text documents from the `documents/` folder  
+2. Split documents into small chunks  
+3. Convert chunks into vector embeddings  
+4. Store embeddings in Chroma DB  
+5. When user asks a question:
+   - Convert query into embedding  
+   - Find most similar document chunk  
+   - Return the answer  
+
+---
+
+## Chunking Strategy
+
+- Chunk size: **300 characters**  
+- Overlap: **50 characters**
+
+This ensures context is preserved between chunks.
+
+---
+
+## Embedding Model
+
+sentence-transformers/all-MiniLM-L6-v2
+
+- Lightweight and fast  
+- Good semantic understanding  
+- Suitable for small RAG applications  
+
+---
+
+## Vector Database
+
+- Chroma DB  
+- Stores document embeddings  
+- Performs similarity search efficiently  
+- Supports persistent storage (`vector_store/`)  
+
+---
+
+## How to Run the Project
+
+### 1. Install dependencies
+```bash
+pip install -r requirements.txt
+
+streamlit run app.py
+```
+---
+
+## Example Usage
+
+User: What courses are available in CSE department?
+Bot: Returns relevant information from documents.
+
+User: What is the fee structure?
+Bot: Returns fee details from knowledge base.
+
+---
+
+## Limitations
+- Works only on provided .txt documents
+- Does not generate new answers (retrieval-based only)
+- Accuracy depends on chunk quality and embeddings
+
+---
+
+## Future Improvements
+- Add PDF support
+- Integrate LLM for better answer generation
+- Improve UI with better chat memory handling
+
+---
+
+## Author
+
+Neethu O S
+B.Tech Computer Science and Engineering
+Interests: Data Analysis, AI, Machine Learning, Web Development
