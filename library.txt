@@ -1,0 +1,13 @@
+Library timings
+
+The  library operates from 9 AM to 5 PM on weekdays.
+
+Students can borrow up to 3 books at a time.
+
+Books must be returned within 14 days.
+
+A fine of Rs. 5 per day is charged for overdue books.
+
+Students must carry their college ID card while entering the library.
+
+Digital learning resources and previous year question papers are available in the library portal.
