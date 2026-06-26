@@ -1,128 +1,209 @@
-# College Information Assistant (RAG Chatbot)
+# 🎓 College Information Assistant
+### *Ask. Retrieve. Know Instantly.*
 
-A Streamlit-based Retrieval-Augmented Generation (RAG) application that allows users to ask questions about college-related information and get instant answers from uploaded documents.
-
----
-
-## Project Overview
-
-The *College Information Assistant* is an AI-powered chatbot that retrieves relevant information from a local knowledge base (text documents) using embeddings and vector search.
-
-Instead of manually searching through documents, users can simply ask questions and get accurate answers instantly.
+An AI-powered RAG (Retrieval-Augmented Generation) chatbot built with **LangChain**, **ChromaDB**, and **Streamlit** that helps students instantly find college-related information — no more digging through PDFs or notice boards.
 
 ---
 
-## Features
+## 🚀 Live Demo
 
-- Loads college-related information from `.txt` files  
-- Splits documents into meaningful chunks  
-- Converts text into embeddings using HuggingFace model  
-- Stores embeddings in Chroma vector database  
-- Retrieves most relevant information using similarity search  
-- Chat-like Streamlit interface  
-- Handles unknown queries gracefully  
+> Ask questions like:
+> - *"What is the minimum attendance required?"*
+> - *"What are the library timings?"*
+> - *"Who approves attendance shortage applications?"*
+
+...and get precise answers in seconds.
+
+![App Screenshot](screenshots/home_page.png)
 
 ---
 
-## Project Structure
+## 📌 The Problem This Solves
 
-rag_application/
+Students waste valuable time hunting for information scattered across multiple documents — attendance policies, hostel rules, fee deadlines, exam schedules. This assistant puts all of it at their fingertips through a simple chat interface.
+
+---
+
+## ✨ Features
+
+- 💬 **Conversational chat interface** built with Streamlit
+- 📄 **Retrieves answers** from a local knowledge base of `.txt` documents
+- 🧠 **Semantic search** using HuggingFace sentence transformers
+- 🗃️ **ChromaDB** for fast, persistent vector storage
+- 🚫 **Graceful fallback** — tells users when information isn't available
+- ⚡ **Lightweight** — no expensive LLM API calls needed for retrieval
+
+---
+
+## 🗂️ Project Structure
+
+```
+college-info-assistant/
 │
-├── app.py              # Main Streamlit application
-├── documents/          # Knowledge base (.txt files)
-├── vector_store/       # Chroma DB storage
-├── requirements.txt    # Python dependencies
-└── README.md           # Project documentation
+├── app.py                  # Main Streamlit application
+├── requirements.txt        # Python dependencies
+├── README.md               # You're reading it!
+│
+├── documents/              # 📚 Knowledge base
+│   ├── admission.txt
+│   ├── attendance.txt
+│   ├── exam_rules.txt
+│   ├── fees.txt
+│   ├── hostel.txt
+│   ├── library.txt
+│   ├── placement.txt
+│   └── transport.txt
+│
+└── vector_store/           # 🗄️ ChromaDB persistent storage (auto-generated)
+```
 
 ---
 
-## Technologies Used
+## 🧱 Tech Stack
 
-- Python  
-- Streamlit  
-- LangChain  
-- HuggingFace Embeddings  
-- Chroma Vector Database  
-
----
-
-## How It Works
-
-1. Load text documents from the `documents/` folder  
-2. Split documents into small chunks  
-3. Convert chunks into vector embeddings  
-4. Store embeddings in Chroma DB  
-5. When user asks a question:
-   - Convert query into embedding  
-   - Find most similar document chunk  
-   - Return the answer  
+| Layer | Technology |
+|---|---|
+| **UI** | Streamlit |
+| **Orchestration** | LangChain |
+| **Embeddings** | HuggingFace `sentence-transformers/all-MiniLM-L6-v2` |
+| **Vector DB** | ChromaDB |
+| **Language** | Python 3.x |
 
 ---
 
-## Chunking Strategy
+## ⚙️ How It Works
 
-- Chunk size: **300 characters**  
-- Overlap: **50 characters**
+```
+User Question
+     │
+     ▼
+Convert to Embedding (MiniLM-L6-v2)
+     │
+     ▼
+Similarity Search in ChromaDB
+     │
+     ▼
+Retrieve Most Relevant Chunk
+     │
+     ▼
+Display Answer to User
+```
 
-This ensures context is preserved between chunks.
-
----
-
-## Embedding Model
-
-sentence-transformers/all-MiniLM-L6-v2
-
-- Lightweight and fast  
-- Good semantic understanding  
-- Suitable for small RAG applications  
-
----
-
-## Vector Database
-
-- Chroma DB  
-- Stores document embeddings  
-- Performs similarity search efficiently  
-- Supports persistent storage (`vector_store/`)  
+1. All `.txt` files from `documents/` are loaded at startup
+2. Text is split into **300-character chunks** with **50-character overlap** for context continuity
+3. Each chunk is converted into a vector embedding and stored in ChromaDB
+4. On each user query, the question is embedded and compared against stored vectors
+5. The most semantically similar chunk is returned as the answer
 
 ---
 
-## How to Run the Project
+## 📦 Installation & Setup
 
-### 1. Install dependencies
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/college-info-assistant.git
+cd college-info-assistant
+```
+
+### 2. Create a virtual environment (recommended)
+
+```bash
+python -m venv venv
+source venv/bin/activate        # On Windows: venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
+```
 
+### 4. Add your documents
+
+Place your `.txt` knowledge base files inside the `documents/` folder. Each file should cover a single topic for best retrieval quality.
+
+### 5. Run the app
+
+```bash
 streamlit run app.py
 ```
----
 
-## Example Usage
-
-User: What courses are available in CSE department?
-Bot: Returns relevant information from documents.
-
-User: What is the fee structure?
-Bot: Returns fee details from knowledge base.
+The app will open at `http://localhost:8501` in your browser.
 
 ---
 
-## Limitations
-- Works only on provided .txt documents
-- Does not generate new answers (retrieval-based only)
-- Accuracy depends on chunk quality and embeddings
+## 🧪 Sample Test Results
+
+| Question | Retrieved Topic | Answer | Correct? |
+|---|---|---|---|
+| What is the minimum attendance required? | Attendance Policy | Minimum attendance required is 75% | ✅ |
+| What are the library timings? | Library Policy | Library operates from 9 AM to 5 PM on weekdays | ✅ |
+| Does the college provide free gym membership? | Not Found | *"I could not find this information in the provided documents."* | ✅ |
+| Who approves attendance shortage applications? | Attendance Policy | Attendance shortage applications must be approved by the HoD | ✅ |
 
 ---
 
-## Future Improvements
-- Add PDF support
-- Integrate LLM for better answer generation
-- Improve UI with better chat memory handling
+## 🧠 Embedding Model
+
+**`sentence-transformers/all-MiniLM-L6-v2`**
+
+- Lightweight and fast — ideal for local deployment
+- Strong semantic understanding for Q&A tasks
+- No API key required — runs entirely offline
 
 ---
 
-## Author
+## 📚 Knowledge Base Topics
 
-Neethu O S
-B.Tech Computer Science and Engineering
-Interests: Data Analysis, AI, Machine Learning, Web Development
+The current knowledge base covers:
+
+- 📋 Admission Policy
+- 📅 Attendance Policy
+- 📝 Exam Rules
+- 💰 Fee Structure
+- 🏠 Hostel Information
+- 📖 Library Policy
+- 💼 Placement Policy
+- 🚌 Transport Policy
+
+> **Adding new topics?** Just drop a new `.txt` file into the `documents/` folder and restart the app.
+
+---
+
+## ⚠️ Limitations
+
+- Works only with `.txt` documents (no PDF support yet)
+- Retrieves chunks as-is — does not synthesize or summarize answers
+- Retrieval accuracy depends on chunk quality and document organization
+- No chat memory between sessions
+
+---
+
+## 🔮 Future Improvements
+
+- [ ] Integrate an LLM (OpenAI / LLaMA / Gemini) for generated, natural-language answers
+- [ ] Add PDF document support
+- [ ] Implement semantic reranking for better retrieval precision
+- [ ] Add conversation memory for multi-turn Q&A
+- [ ] Deploy to cloud (Streamlit Cloud / HuggingFace Spaces)
+- [ ] Support multilingual queries
+
+---
+
+## 👩‍💻 Author
+
+**Neethu O S**
+B.Tech — Computer Science and Engineering
+
+Interests: Data Analysis · Artificial Intelligence · Machine Learning · Web Development
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+> *Built as part of a GenAI learning project — demonstrating RAG architecture with local embeddings and vector search.*
