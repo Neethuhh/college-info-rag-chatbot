@@ -14,8 +14,6 @@ An AI-powered RAG (Retrieval-Augmented Generation) chatbot built with **LangChai
 
 ...and get precise answers in seconds.
 
-![App Screenshot](screenshots/home_page.png)
-
 ---
 
 ## 📌 The Problem This Solves
