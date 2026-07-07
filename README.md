@@ -198,10 +198,4 @@ Interests: Data Analysis · Artificial Intelligence · Machine Learning · Web D
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
 > *Built as part of a GenAI learning project — demonstrating RAG architecture with local embeddings and vector search.*
